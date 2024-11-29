@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    selectel  = {
+    selectel = {
       source  = "selectel/selectel"
       version = "5.4.0"
     }
