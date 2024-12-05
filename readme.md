@@ -23,8 +23,8 @@ resource "selectel_vpc_project_v2" "project_1" {
 }
 
 resource "selectel_iam_serviceuser_v1" "serviceuser_1" {
-  name     = "" # логин
-  password = "" # пароль
+  name     = "" # Лог-пасс к созданию сервисного юзера ( любые )
+  password = ""
   role {
     role_name  = "member"
     scope      = "project"
