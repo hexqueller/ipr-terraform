@@ -17,9 +17,12 @@ module "network_port_1" {
 }
 
 module "webserver" {
-  source = "./modules/vm"
+  source       = "./modules/vm"
   server_name  = "webserver"
   image_id     = module.image_datasource.image_id
-  user_data    = file("scripts/nginx.sh")
   network_port = module.network_port_1.port
+  user_data = templatefile("scripts/nginx.sh", {
+    network = module.network_port_1.port
+    image   = module.image_datasource.image_id
+  })
 }
