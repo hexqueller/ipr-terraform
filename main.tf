@@ -1,3 +1,17 @@
+resource "selectel_vpc_project_v2" "project_1" {
+  name = var.selectel_project_name
+}
+
+resource "selectel_iam_serviceuser_v1" "serviceuser_1" {
+  name     = var.selectel_project_serviceuser_name
+  password = var.selectel_project_serviceuser_pass
+  role {
+    role_name  = "member"
+    scope      = "project"
+    project_id = selectel_vpc_project_v2.project_1.id
+  }
+}
+
 module "image_datasource" {
   source = "./modules/image_datasource"
   depends_on = [

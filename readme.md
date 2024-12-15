@@ -1,34 +1,16 @@
 Пример конфигурации Nginx сервера на платформе Selectel
 
-Для работы необходимо добавить данные
+Для работы необходимо создать файл с следующими переменными
+```
+selectel_id                       = "12345"
+selectel_serviceuser_name         = "username"
+selectel_serviceuser_pass         = "password"
+selectel_project_serviceuser_name = "username123"
+selectel_project_serviceuser_pass = "password123"
+```
+Документация к ресурсам Selectel https://docs.selectel.ru/terraform/quickstart/ \
 
-```hcl
-provider "selectel" {
-  domain_name = ""  # Номер аккаунта
-  username    = "" # Данные к тех аккаунту Selectel
-  password    = ""
-}
-
-provider "openstack" {
-  auth_url    = "https://cloud.api.selcloud.ru/identity/v3"
-  domain_name = "" # Номер аккаунта
-  tenant_id   = selectel_vpc_project_v2.project_1.id
-  user_name   = selectel_iam_serviceuser_v1.serviceuser_1.name
-  password    = selectel_iam_serviceuser_v1.serviceuser_1.password
-  region      = "" # Пул
-}
-
-resource "selectel_vpc_project_v2" "project_1" {
-  name = "" # Название проекта
-}
-
-resource "selectel_iam_serviceuser_v1" "serviceuser_1" {
-  name     = "" # Лог-пасс к созданию сервисного юзера ( любые )
-  password = ""
-  role {
-    role_name  = "member"
-    scope      = "project"
-    project_id = selectel_vpc_project_v2.project_1.id
-  }
-}
+Способ вызова
+```bash
+terraform apply -var-file="terraform.tfvars"
 ```
