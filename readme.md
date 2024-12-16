@@ -8,7 +8,7 @@ selectel_serviceuser_pass         = "password"
 selectel_project_serviceuser_name = "username123"
 selectel_project_serviceuser_pass = "password123"
 ```
-Документация к ресурсам Selectel https://docs.selectel.ru/terraform/quickstart/ \
+Документация к ресурсам Selectel https://docs.selectel.ru/terraform/quickstart/
 
 Способ вызова
 ```bash
