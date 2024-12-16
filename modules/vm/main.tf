@@ -1,22 +1,8 @@
-resource "random_id" "flavor_id" {
-  keepers = {
-    name  = var.server_name
-    vcpus = var.cpu
-    ram   = var.ram
-    disk  = var.disk
-  }
-  byte_length = 4
-}
-
 resource "openstack_compute_flavor_v2" "flavor" {
-  name  = "flavor-${random_id.flavor_id.hex}"
+  name  = var.flavor_name
   vcpus = var.cpu
   ram   = var.ram
   disk  = var.disk
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "openstack_compute_instance_v2" "vps" {
@@ -27,5 +13,8 @@ resource "openstack_compute_instance_v2" "vps" {
 
   network {
     port = var.network_port
+  }
+  vendor_options {
+    ignore_resize_confirmation = true
   }
 }

@@ -1,3 +1,7 @@
+variable "flavor_name" {
+  default = "flavor"
+}
+
 variable "server_name" {
   default = "vps"
 }
