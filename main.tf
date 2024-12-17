@@ -22,21 +22,39 @@ module "image_datasource" {
 
 module "network" {
   source = "./modules/network"
+  depends_on = [
+    selectel_vpc_project_v2.project_1,
+    selectel_iam_serviceuser_v1.serviceuser_1
+  ]
 }
 
-module "network_port_1" {
-  source     = "./modules/network_port"
+resource "openstack_networking_port_v2" "port_1" {
+  name       = "eth0"
   network_id = module.network.network_id
-  subnet_id  = module.network.subnet_id
+
+  fixed_ip {
+    subnet_id = module.network.subnet_id
+  }
 }
 
 module "webserver" {
   source       = "./modules/vm"
   server_name  = "webserver"
   image_id     = module.image_datasource.image_id
-  network_port = module.network_port_1.port
+  network_port = openstack_networking_port_v2.port_1.id
+
   user_data = templatefile("scripts/nginx.sh", {
-    network = module.network_port_1.port
+    network = module.floatingip.floatingip_address
     image   = module.image_datasource.image_id
   })
+}
+
+module "floatingip" {
+  source = "./modules/floatingip"
+  region = var.selectel_region
+}
+
+resource "openstack_networking_floatingip_associate_v2" "association_1" {
+  port_id     = openstack_networking_port_v2.port_1.id
+  floating_ip = module.floatingip.floatingip_address
 }
