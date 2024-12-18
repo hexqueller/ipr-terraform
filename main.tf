@@ -44,8 +44,9 @@ module "webserver" {
   network_port = openstack_networking_port_v2.port_1.id
 
   user_data = templatefile("scripts/nginx.sh", {
-    network = module.floatingip.floatingip_address
-    image   = module.image_datasource.image_id
+    network          = module.floatingip.floatingip_address
+    server_name      = "webserver"
+    background_image = "https://repository-images.githubusercontent.com/17728164/10b4bf00-6a20-11ea-8934-20870600afc0"
   })
 }
 
